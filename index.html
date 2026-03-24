@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Read the Room — Cycle-Aware Relationship Coaching</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', sans-serif; color: #2D2D2D; background: #FFF9F5; }
+
+        /* Nav */
+        nav { position: fixed; top: 0; width: 100%; background: rgba(255,249,245,0.95); backdrop-filter: blur(20px); z-index: 100; padding: 16px 0; border-bottom: 1px solid #F3E8E2; }
+        nav .container { display: flex; align-items: center; justify-content: space-between; max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+        nav .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; color: #2D2D2D; }
+        nav .logo img { width: 36px; height: 36px; border-radius: 8px; }
+        nav .logo span { font-weight: 700; font-size: 18px; }
+        nav .nav-links { display: flex; gap: 24px; align-items: center; }
+        nav .nav-links a { text-decoration: none; color: #6B7280; font-size: 14px; font-weight: 500; transition: color 0.2s; }
+        nav .nav-links a:hover { color: #E8927C; }
+
+        /* Hero */
+        .hero { padding: 140px 24px 80px; text-align: center; background: linear-gradient(180deg, #FFF9F5 0%, #FFF0E8 100%); }
+        .hero .container { max-width: 800px; margin: 0 auto; }
+        .hero-icon { width: 100px; height: 100px; border-radius: 24px; margin: 0 auto 32px; box-shadow: 0 12px 40px rgba(232,146,124,0.3); }
+        .hero h1 { font-size: 52px; font-weight: 800; letter-spacing: -1.5px; line-height: 1.1; margin-bottom: 16px; }
+        .hero h1 .accent { color: #E8927C; }
+        .hero p { font-size: 20px; color: #6B7280; max-width: 550px; margin: 0 auto 40px; line-height: 1.6; }
+        .hero .cta-buttons { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+        .btn-primary { display: inline-flex; align-items: center; gap: 8px; background: linear-gradient(135deg, #E8927C, #D4765E); color: white; padding: 16px 32px; border-radius: 14px; text-decoration: none; font-weight: 700; font-size: 16px; box-shadow: 0 4px 16px rgba(232,146,124,0.3); transition: transform 0.2s, box-shadow 0.2s; }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(232,146,124,0.4); }
+        .btn-secondary { display: inline-flex; align-items: center; gap: 8px; background: white; color: #2D2D2D; padding: 16px 32px; border-radius: 14px; text-decoration: none; font-weight: 600; font-size: 16px; border: 1.5px solid #F3E8E2; transition: all 0.2s; }
+        .btn-secondary:hover { border-color: #E8927C; color: #E8927C; }
+
+        /* Phases Banner */
+        .phases-banner { padding: 60px 24px; background: white; }
+        .phases-banner .container { max-width: 900px; margin: 0 auto; }
+        .phases-banner h2 { text-align: center; font-size: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; color: #9CA3AF; margin-bottom: 32px; }
+        .phase-cards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+        .phase-card { text-align: center; padding: 20px 12px; border-radius: 16px; }
+        .phase-card .phase-icon { font-size: 32px; margin-bottom: 8px; }
+        .phase-card .phase-name { font-weight: 700; font-size: 14px; margin-bottom: 4px; }
+        .phase-card .phase-days { font-size: 12px; color: #9CA3AF; }
+        .phase-menstrual { background: #FDE8E8; color: #E87C7C; }
+        .phase-follicular { background: #E8F5E8; color: #7CB88A; }
+        .phase-ovulatory { background: #FFF3E0; color: #E8A84C; }
+        .phase-luteal { background: #EDE8F5; color: #9B7CB8; }
+
+        /* Features */
+        .features { padding: 80px 24px; }
+        .features .container { max-width: 1000px; margin: 0 auto; }
+        .features h2 { font-size: 36px; font-weight: 800; text-align: center; margin-bottom: 12px; }
+        .features .subtitle { text-align: center; font-size: 18px; color: #6B7280; margin-bottom: 60px; }
+        .feature-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+        .feature-item { background: white; border-radius: 20px; padding: 32px 24px; border: 1px solid #F3E8E2; transition: transform 0.2s, box-shadow 0.2s; }
+        .feature-item:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(0,0,0,0.06); }
+        .feature-icon { width: 48px; height: 48px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 22px; margin-bottom: 16px; }
+        .feature-item h3 { font-size: 18px; font-weight: 700; margin-bottom: 8px; }
+        .feature-item p { font-size: 14px; color: #6B7280; line-height: 1.6; }
+
+        /* Modes */
+        .modes { padding: 80px 24px; background: white; }
+        .modes .container { max-width: 1000px; margin: 0 auto; }
+        .modes h2 { font-size: 36px; font-weight: 800; text-align: center; margin-bottom: 12px; }
+        .modes .subtitle { text-align: center; font-size: 18px; color: #6B7280; margin-bottom: 48px; }
+        .modes-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+        .mode-card { padding: 16px; border-radius: 14px; text-align: center; border: 1.5px solid #F3E8E2; transition: all 0.2s; cursor: default; }
+        .mode-card:hover { border-color: #E8927C; transform: translateY(-2px); }
+        .mode-card .mode-icon { font-size: 28px; margin-bottom: 6px; }
+        .mode-card .mode-name { font-weight: 700; font-size: 13px; }
+        .mode-card .mode-desc { font-size: 11px; color: #9CA3AF; margin-top: 4px; }
+        .mode-card.free { background: #FFF9F5; border-color: #E8927C40; }
+        .mode-card.premium { background: #FAFAFA; }
+        .mode-card .badge { display: inline-block; font-size: 9px; font-weight: 700; padding: 2px 6px; border-radius: 4px; margin-top: 6px; }
+        .mode-card.free .badge { background: #7CB88A20; color: #7CB88A; }
+        .mode-card.premium .badge { background: #E8927C20; color: #E8927C; }
+
+        /* CTA */
+        .cta-section { padding: 80px 24px; text-align: center; background: linear-gradient(135deg, #E8927C, #D4765E); color: white; }
+        .cta-section h2 { font-size: 36px; font-weight: 800; margin-bottom: 16px; }
+        .cta-section p { font-size: 18px; opacity: 0.9; margin-bottom: 32px; max-width: 500px; margin-left: auto; margin-right: auto; }
+        .btn-white { display: inline-flex; align-items: center; gap: 8px; background: white; color: #E8927C; padding: 16px 32px; border-radius: 14px; text-decoration: none; font-weight: 700; font-size: 16px; transition: transform 0.2s; }
+        .btn-white:hover { transform: translateY(-2px); }
+
+        /* Footer */
+        footer { padding: 48px 24px; background: #2D2D2D; color: #9CA3AF; }
+        footer .container { max-width: 1000px; margin: 0 auto; display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 32px; }
+        footer .footer-brand { }
+        footer .footer-brand .logo { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; }
+        footer .footer-brand .logo img { width: 28px; height: 28px; border-radius: 6px; }
+        footer .footer-brand .logo span { color: white; font-weight: 700; font-size: 16px; }
+        footer .footer-brand p { font-size: 13px; max-width: 280px; line-height: 1.5; }
+        footer .footer-links { }
+        footer .footer-links h4 { color: white; font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; }
+        footer .footer-links a { display: block; color: #9CA3AF; text-decoration: none; font-size: 13px; margin-bottom: 8px; transition: color 0.2s; }
+        footer .footer-links a:hover { color: #E8927C; }
+        footer .copyright { width: 100%; text-align: center; padding-top: 32px; margin-top: 32px; border-top: 1px solid #404040; font-size: 12px; }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 36px; }
+            .hero p { font-size: 16px; }
+            .phase-cards { grid-template-columns: repeat(2, 1fr); }
+            .feature-grid { grid-template-columns: 1fr; }
+            .modes-grid { grid-template-columns: repeat(2, 1fr); }
+            footer .container { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="container">
+            <a href="/" class="logo">
+                <img src="app-icon.png" alt="Read the Room">
+                <span>Read the Room</span>
+            </a>
+            <div class="nav-links">
+                <a href="#features">Features</a>
+                <a href="#modes">Modes</a>
+                <a href="support.html">Support</a>
+                <a href="privacy.html">Privacy</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="container">
+            <img src="app-icon.png" alt="Read the Room" class="hero-icon">
+            <h1>Know what to say.<br><span class="accent">Every time.</span></h1>
+            <p>The relationship coaching app that helps you understand her cycle and respond with emotional intelligence.</p>
+            <div class="cta-buttons">
+                <a href="https://testflight.apple.com/join/v5XXWj8G" class="btn-primary">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+                    Download on TestFlight
+                </a>
+                <a href="#features" class="btn-secondary">Learn More</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Phases Banner -->
+    <section class="phases-banner">
+        <div class="container">
+            <h2>Understanding her 4 phases changes everything</h2>
+            <div class="phase-cards">
+                <div class="phase-card phase-menstrual">
+                    <div class="phase-icon">&#x1F319;</div>
+                    <div class="phase-name">Menstrual</div>
+                    <div class="phase-days">Days 1-5</div>
+                </div>
+                <div class="phase-card phase-follicular">
+                    <div class="phase-icon">&#x1F331;</div>
+                    <div class="phase-name">Follicular</div>
+                    <div class="phase-days">Days 6-13</div>
+                </div>
+                <div class="phase-card phase-ovulatory">
+                    <div class="phase-icon">&#x2600;&#xFE0F;</div>
+                    <div class="phase-name">Ovulatory</div>
+                    <div class="phase-days">Days 14-16</div>
+                </div>
+                <div class="phase-card phase-luteal">
+                    <div class="phase-icon">&#x1F342;</div>
+                    <div class="phase-name">Luteal</div>
+                    <div class="phase-days">Days 17-28</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features -->
+    <section class="features" id="features">
+        <div class="container">
+            <h2>Your relationship superpower</h2>
+            <p class="subtitle">Everything you need to show up better, right in your pocket.</p>
+            <div class="feature-grid">
+                <div class="feature-item">
+                    <div class="feature-icon" style="background: #E8927C20; color: #E8927C;">&#x1F9E0;</div>
+                    <h3>Smart Coaching Overlay</h3>
+                    <p>Get phase-specific suggested responses you can copy and paste directly into your messaging app. Like Grammarly, but for emotional intelligence.</p>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon" style="background: #7CB88A20; color: #7CB88A;">&#x1F504;</div>
+                    <h3>Cycle Tracking</h3>
+                    <p>Track where she is in her cycle with our visual wheel. Understand what she's experiencing, what she needs, and what to avoid.</p>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon" style="background: #9B7CB820; color: #9B7CB8;">&#x2728;</div>
+                    <h3>12 Coaching Modes</h3>
+                    <p>From empathetic Coach to brutally honest Brave, casual Mate to suave Bond. Find the voice that fits your relationship.</p>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon" style="background: #E8A84C20; color: #E8A84C;">&#x1F3AF;</div>
+                    <h3>Wingman Mode</h3>
+                    <p>Live coaching when you're physically with her. Tell the app what's happening and get instant advice on what to say and do.</p>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon" style="background: #6B8FD420; color: #6B8FD4;">&#x1F465;</div>
+                    <h3>Multiple People</h3>
+                    <p>Track more than one person. Each gets their own cycle tracking and personalised coaching responses.</p>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon" style="background: #E87C7C20; color: #E87C7C;">&#x1F4CB;</div>
+                    <h3>Copy &amp; Paste Ready</h3>
+                    <p>Every suggested response is one tap away from your clipboard. Open your chat app, paste, and send with confidence.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modes -->
+    <section class="modes" id="modes">
+        <div class="container">
+            <h2>12 coaching personalities</h2>
+            <p class="subtitle">3 free modes. 9 premium packs. Find your voice.</p>
+            <div class="modes-grid">
+                <div class="mode-card free">
+                    <div class="mode-icon">&#x1F9E0;</div>
+                    <div class="mode-name">Coach</div>
+                    <div class="mode-desc">Empathetic guidance</div>
+                    <div class="badge">FREE</div>
+                </div>
+                <div class="mode-card free">
+                    <div class="mode-icon">&#x1F37A;</div>
+                    <div class="mode-name">Mate</div>
+                    <div class="mode-desc">Your best friend's advice</div>
+                    <div class="badge">FREE</div>
+                </div>
+                <div class="mode-card free">
+                    <div class="mode-icon">&#x1F480;</div>
+                    <div class="mode-name">Brave</div>
+                    <div class="mode-desc">Brutally honest</div>
+                    <div class="badge">FREE</div>
+                </div>
+                <div class="mode-card premium">
+                    <div class="mode-icon">&#x1F6E1;&#xFE0F;</div>
+                    <div class="mode-name">Survive</div>
+                    <div class="mode-desc">Crisis management</div>
+                    <div class="badge">PREMIUM</div>
+                </div>
+                <div class="mode-card premium">
+                    <div class="mode-icon">&#x1F3AF;</div>
+                    <div class="mode-name">Wingman</div>
+                    <div class="mode-desc">Live coaching</div>
+                    <div class="badge">PREMIUM</div>
+                </div>
+                <div class="mode-card premium">
+                    <div class="mode-icon">&#x2728;</div>
+                    <div class="mode-name">Astral</div>
+                    <div class="mode-desc">Zodiac guidance</div>
+                    <div class="badge">PREMIUM</div>
+                </div>
+                <div class="mode-card premium">
+                    <div class="mode-icon">&#x1F378;</div>
+                    <div class="mode-name">Bond</div>
+                    <div class="mode-desc">007 sophistication</div>
+                    <div class="badge">PREMIUM</div>
+                </div>
+                <div class="mode-card premium">
+                    <div class="mode-icon">&#x1F4F1;</div>
+                    <div class="mode-name">TikTok</div>
+                    <div class="mode-desc">Gen Z energy</div>
+                    <div class="badge">PREMIUM</div>
+                </div>
+                <div class="mode-card premium">
+                    <div class="mode-icon">&#x1F1FA;&#x1F1F8;</div>
+                    <div class="mode-name">Trump</div>
+                    <div class="mode-desc">Tremendous confidence</div>
+                    <div class="badge">PREMIUM</div>
+                </div>
+                <div class="mode-card premium">
+                    <div class="mode-icon">&#x1F3DB;&#xFE0F;</div>
+                    <div class="mode-name">Stoic</div>
+                    <div class="mode-desc">Marcus Aurelius wisdom</div>
+                    <div class="badge">PREMIUM</div>
+                </div>
+                <div class="mode-card premium">
+                    <div class="mode-icon">&#x271D;&#xFE0F;</div>
+                    <div class="mode-name">Christ</div>
+                    <div class="mode-desc">Faith-based guidance</div>
+                    <div class="badge">PREMIUM</div>
+                </div>
+                <div class="mode-card premium">
+                    <div class="mode-icon">&#x1F457;</div>
+                    <div class="mode-name">Red Dress</div>
+                    <div class="mode-desc">Pure romance</div>
+                    <div class="badge">PREMIUM</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta-section">
+        <h2>Ready to read the room?</h2>
+        <p>Download now and start understanding her cycle. 3 modes free, no account required.</p>
+        <a href="https://testflight.apple.com/join/v5XXWj8G" class="btn-white">
+            Get Early Access on TestFlight
+        </a>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-brand">
+                <div class="logo">
+                    <img src="app-icon.png" alt="Read the Room">
+                    <span>Read the Room</span>
+                </div>
+                <p>The relationship coaching app that helps you show up for her — especially when it matters most.</p>
+            </div>
+            <div class="footer-links">
+                <h4>App</h4>
+                <a href="#features">Features</a>
+                <a href="#modes">Coaching Modes</a>
+                <a href="https://testflight.apple.com/join/v5XXWj8G">TestFlight</a>
+            </div>
+            <div class="footer-links">
+                <h4>Legal</h4>
+                <a href="privacy.html">Privacy Policy</a>
+                <a href="terms.html">Terms &amp; Conditions</a>
+                <a href="support.html">Support</a>
+            </div>
+            <div class="footer-links">
+                <h4>Company</h4>
+                <a href="https://zorro-studio.com">Zorro Apps</a>
+                <a href="mailto:chris@zorro-studio.com">Contact</a>
+            </div>
+            <div class="copyright">
+                &copy; 2026 Zorro Apps. All rights reserved. Read the Room is not medical advice.
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
